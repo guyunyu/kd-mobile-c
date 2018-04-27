@@ -50,6 +50,7 @@
         <splash density="port-xxhdpi" src="res/splashes/ob-960x1600.png"/>
         <splash density="port-xxxhdpi" src="res/splashes/ob-1280x1920.png"/>
 	</platform>
+	<!-- 
 	<platform name="ios">
 		<allow-intent href="itms:*"/>
 		<allow-intent href="itms-apps:*"/>
@@ -81,6 +82,7 @@
         <splash height="960" platform="ios" src="res/splashes/ob-640x960.png" width="640"/>
         <splash height="480" platform="ios" src="res/splashes/ob-320x480.png" width="320"/>
 	</platform>
+	-->
 	<plugin name="cordova-plugin-whitelist" spec="~1.2.0"/>	
 	<plugin name="phonegap-plugin-barcodescanner" spec="~6.0.3"/>
 	<plugin name="cordova-plugin-network-information" spec="~1.3.1"/>
