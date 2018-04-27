@@ -26,7 +26,7 @@ ob.barcode = {
 		if(typeof c.text === 'string') {
 			if(/^\/\/[A-Z0-9]+\/?[0-9]+#[0-9]+(F|M)K$/.test(c.text)) {
 				var tx = c.text.substring(2, c.text.indexOf('#'));
-				
+				ob.locations.receiveTx(tx);
 			} else {
 				fw.alert('Barcode is not recognized: ' + c.text);
 			}
