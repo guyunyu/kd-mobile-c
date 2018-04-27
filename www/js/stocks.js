@@ -29,7 +29,7 @@ ob.pages.stocks = {
 									var item = json.data[index];
 									var li = template.clone(false);
 									li.data('id', item['m.detailId']);
-									li.find('img').attr('data-src', 'https://www.kumpulan.com.sg/images/catalog/' + item['sku.product_image']).attr('data-rel', 'external');;
+									li.find('img').attr('data-src', 'https://www.kumpulan.com.sg/images/catalog/' + item['sku.product_image']).attr('data-rel', 'external');
 									li.find('.item-title').text(item['sku.product_name'] || '');
 									li.find('.item-after').text((item['m.inStock'] || '0') + ' ' + (item['sku.product_uom'] || ''))
 										.data('qty', item['m.inStock'] || 0)
