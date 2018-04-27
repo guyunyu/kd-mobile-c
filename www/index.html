@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; img-src 'self' data: http: https:;">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+
+    <title>Kumpulan Online</title>
+
+    <link rel="stylesheet" href="lib/framework7/css/framework7.ios.css">
+    <link rel="stylesheet" href="lib/framework7/css/framework7.ios.colors.css">
+    <link rel="stylesheet" href="lib/framework7/css/framework7-icons.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/addon-ios.css">
+  </head>
+  <body>
+    <div class="statusbar-overlay"></div>
+    <div class="panel-overlay"></div>
+    <div class="views">
+      <div class="view view-main navbar-through">
+        <div class="navbar">
+          <div class="navbar-inner">
+            <div class="left">
+              <a href="#" class="link icon-only" onclick="window.location.reload(); return false;"><img src="images/ob-48x48.png" width="28" height="28"></img></a>
+            </div>
+            <div class="title sliding">
+              Kumpulan Online
+            </div>
+            <div class="right">
+              <a href="#" class="link icon-only ob-icon-scan"><img src="images/qrcode.svg" width="28" height="28"></img></a>
+            </div>
+          </div>
+        </div>
+        <div class="pages toolbar-through">
+          <div data-page="index" class="page">
+            <div class="ob-main-body page-content">
+              <div class="main-body-inner">
+                <div class="ob-empty"><img src="images/empty.svg"></img></div>
+                <div class="ob-locations list-block media-list" style="display: none;">
+                  <div class="ob-title block-title item-text">Managed Locations</div>
+                  <ul>
+                    <li>
+                      <a href="#" class="item-link item-content">
+                        <div class="item-inner">
+                          <div class="item-title-row">
+                            <div class="item-title"></div>
+                            <div class="item-after"></div>
+                          </div>
+                          <div class="item-subtitle"></div>
+                          <div class="item-text">
+                            <div class="a1"></div>
+                            <div class="a2"></div>
+                          </div>
+                        </div>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="toolbar tabbar tabbar-labels">
+              <div class="toolbar-inner">
+                <a href="#" onclick="window.location.reload(); return false;" class="tab-link home-top home active">
+                  <i class="icon"></i>
+                  <span class="tabbar-label">Home</span>
+                </a>
+                <a href="#" class="tab-link me">
+                  <i class="icon"></i>
+                  <span class="tabbar-label">Me</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="login-screen">
+      <div class="view">
+        <div class="page">
+          <div class="page-content login-screen-content">
+            <div class="login-screen-title"><img src="images/ob-big.png"></img></div>
+            <form>
+              <div class="list-block">
+                <ul>
+                  <li class="item-content">
+                    <div class="item-inner">
+                      <div class="item-title label">Company</div>
+                      <div class="item-input">
+                        <input type="text" name="j_company" placeholder="Company Code">
+                      </div>
+                    </div>
+                  </li>
+                  <li class="item-content">
+                    <div class="item-inner">
+                      <div class="item-title label">User Name</div>
+                      <div class="item-input">
+                        <input type="text" name="j_username" placeholder="User Name">
+                      </div>
+                    </div>
+                  </li>
+                  <li class="item-content">
+                    <div class="item-inner">
+                      <div class="item-title label">Password</div>
+                      <div class="item-input">
+                        <input type="password" name="j_password" placeholder="Your password">
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="list-block">
+                <ul>
+                  <li><a href="#" class="item-link list-button ob-btn-login">Sign In</a></li>
+                  <li><a href="#" class="item-link list-button ob-btn-login-cancel">Cancel</a></li>
+                </ul>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="popup popup-address-css popup-update-stockbalance">
+      <div class="content-block">
+        <div class="title">Update Stock Balance</div>
+        <div class="card">
+          <div class="card-content">
+            <div class="card-content-inner name"></div>
+            <div class="card-content-inner spec"></div>
+          </div>
+        </div>
+        <form class="list-block">
+          <div>
+            <input type="hidden" name="m.detailId" class="column"></input>
+          </div>
+          <ul>
+            <li>
+              <div class="item-content">
+                <div class="item-inner">
+                  <div class="item-title label">Current Quantity</div>
+                  <div class="item-input">
+                    <input type="text" name="m.currentStock" class="column" placeholder="" readonly="readonly"></input>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content">
+                <div class="item-inner">
+                  <div class="item-title label">New Quantity</div>
+                  <div class="item-input">
+                    <input type="text" name="m.inStock" class="column" placeholder="New Quantity"></input>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </form>
+        <div class="row cmd">
+          <div class="col-50">
+            <a href="#" class="button button-big button-red close-popup">Cancel</a>
+          </div>
+          <div class="col-50">
+            <a href="#" class="button button-big button-green update">Save</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="popup popup-address-css popup-scan-tx">
+      <div class="content-block">
+        <div class="title">Confirm Receiving Goods</div>
+        <div class="card">
+          <div class="card-content">
+            <div class="card-content-inner">This is to confirm the goods are received, all products will be added to the current stock balance.</div>
+            <div class="card-content-inner">Please tap "Confirm" to continue.</div>
+          </div>
+        </div>
+        <form class="list-block">
+          <ul>
+            <li>
+              <div class="item-content">
+                <div class="item-inner">
+                  <div class="item-title label">Delivery/Invoice No</div>
+                  <div class="item-input">
+                    <input type="text" name="tx" class="column" placeholder="" readonly="readonly"></input>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </form>
+        <div class="row cmd">
+          <div class="col-50">
+            <a href="#" class="button button-big button-red close-popup">Cancel</a>
+          </div>
+          <div class="col-50">
+            <a href="#" class="button button-big button-green update">Confirm</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="loading">
+      <div class="inner">
+        <div class="mask">
+          <img src="images/loading.gif"></img>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="lib/jquery/jquery-1.12.0.min.js"></script>
+    <script type="text/javascript" src="lib/framework7/js/framework7.js"></script>
+    <script type="text/javascript" src="lib/misc/md5.min.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript" src="js/toolbar.js"></script>
+    <script type="text/javascript" src="js/locations.js"></script>
+    <script type="text/javascript" src="js/stocks.js"></script>
+    <script type="text/javascript" src="js/barcode.js"></script>
+    <script type="text/javascript" src="js/m/my.js"></script>
+    <script type="text/javascript">
+		ob.ready();
+    </script>
+  </body>
+</html>
