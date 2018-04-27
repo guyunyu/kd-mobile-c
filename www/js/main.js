@@ -310,6 +310,8 @@ ob.checkNetwork = function() {
 
 ob.ready = function() {
 
+	ob.loading(true);
+
 	if($(window).width() < 300) {
 		fw.alert('Screen resolution is too low. Kumpulan Online display could possibly go out of shape.');
 	}
