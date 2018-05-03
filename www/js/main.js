@@ -11,7 +11,7 @@ ob.mainView = fw.addView('.view-main', {
 	tapHold: true
 });
 
-ob.version = '0.0.1';
+ob.version = '0.0.2';
 ob.debug = false;
 ob.online = true;
 ob.$ = 'SGD';
