@@ -24,7 +24,7 @@ ob.url = function( uri ) {
 	if(typeof url === 'string') {
 		return url + uri;
 	} else {
-		return 'https://www.kumpulan.com.sg/ebiz-online' + uri;
+		return 'http://kdonline.evolt-technologies.com/ebiz-online' + uri;
 	}
 };
 
