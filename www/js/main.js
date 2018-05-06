@@ -18,13 +18,14 @@ ob.$ = 'SGD';
 ob.pages = {};
 ob.device = {};
 ob.publicKey = 'KDMOB-201804260620';
+ob.primaryServer = 'http://kdonline.evolt-technologies.com';
 
 ob.url = function( uri ) {
 	var url = window.localStorage.getItem('url');
 	if(typeof url === 'string') {
 		return url + uri;
 	} else {
-		return 'http://kdonline.evolt-technologies.com/ebiz-online' + uri;
+		return ob.primaryServer + '/ebiz-online' + uri;
 	}
 };
 
@@ -245,8 +246,10 @@ ob.ajax = function( opt ) {
 		var message = '';
 		keyset = keyset.sort();
 		for(var index=0; index<keyset.length; index++) {
-			message += keyset[index];
-			message += data[keyset[index]];
+			if(data[keyset[index]] !== '') {
+				message += keyset[index];
+				message += data[keyset[index]];
+			}
 		}
 		data['signature'] = md5(message + ob.session.v1);
 	}
@@ -319,7 +322,6 @@ ob.ready = function() {
 	ob.toolbar.init({
 		name: 'index'
 	});
-	ob.barcode.init();
 
 	if(typeof cordova !== 'undefined') {
 		$(document).on('deviceready', function() {
@@ -379,7 +381,6 @@ ob.ready = function() {
 
 fw.onPageInit('index', function (page) {
 	ob.init();
-	ob.barcode.init();
 });
 
 fw.onPageAfterAnimation('index', function (page) { 

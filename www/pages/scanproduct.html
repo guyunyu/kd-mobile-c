@@ -3,20 +3,18 @@
     <div class="left">
       <a href="#" class="back link"><i class="f7-icons">chevron_left</i><span class="text">back</span></a>
     </div>
-    <div class="title sliding">
-      Stock Balance
-    </div>
+    <div class="center sliding">Update Stocks</div>
     <div class="right">
-      <a href="#" class="link icon-only ob-icon-scan"><img src="images/qrcode.svg" width="28" height="28"></img></a>
+      <a href="index.html" class="link icon-only home-top" onclick="window.location.reload(); return false;"><i class="icon"></i></a>
     </div>
   </div>
 </div>
 <div class="pages">
-  <div data-page="stocks" class="page">
-    <div class="page-content infinite-scroll hide-bars-on-scroll">
+  <div data-page="scanproduct" class="page">
+    <div class="ob-white page-content">
       <div class="ob-stock-balance ob-white content-block">
         <div class="ob-locations list-block media-list no-padding-top">
-          <div class="ob-title block-title item-text no-padding-top">Current Location</div>
+          <div class="ob-title block-title item-text no-padding-top">Product Scanned</div>
           <ul>
             <li>
               <div class="item-content">
@@ -35,8 +33,7 @@
             </li>
           </ul>
         </div>
-        <div class="ob-empty short-padding"><img src="images/empty.svg"></img></div>
-        <div class="ob-stock-list list-block media-list" style="display: none;">
+        <div class="ob-stock-list list-block media-list">
           <ul>
             <li>
               <div class="item-content">

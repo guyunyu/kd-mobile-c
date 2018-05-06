@@ -1,4 +1,5 @@
 ob.locations = {
+	barcodeKey: 'bar-',
 	render: function( dt ) {
 		var json;
 		if(typeof dt === 'string') {
@@ -38,7 +39,7 @@ ob.locations = {
 		}
 	},
 	
-	updateStockBalance: function( a ) {
+	updateStockBalance: function( opt ) {
 		var popup = $('.popup-update-stockbalance');
 		if(!popup.data('init')) {
 			popup.data('init', true);
@@ -47,6 +48,10 @@ ob.locations = {
 				$(this).parents('.popup').find('.column').each(function() {
 					data[$(this).attr('name')] = ob.getValue(this);
 				});
+				if(!data['m.inStock'] || data['m.inStock'] < 0) {
+					fw.alert('Stock quantity must be zero or greater.');
+					return false;
+				}
 				ob.ajax({
 					url: ob.url('/oauth2/resource/execute/malo/UpdateStockBalance'),
 					method: 'POST',
@@ -55,15 +60,9 @@ ob.locations = {
 						try {
 							var json = JSON.parse(dt);
 							if(json.status === 'success') {
-								$(a).parents('ul:first').children('li').each(function() {
-									if($(this).data('id') === json.rflag.detailId) {
-										var ax = $(this).find('.item-after');
-										$(ax).data('qty', json.rflag.inStock);
-										var text = $(ax).text();
-										text = json.rflag.inStock + text.substr(text.indexOf(' '));
-										$(ax).text(text);
-									}
-								});
+								if(ob.pages.stocks && ob.pages.stocks.container) {
+									ob.pages.stocks.update(opt, json.rflag.detailId, json.rflag.inStock);
+								}
 								fw.closeModal('.popup-update-stockbalance.modal-in');
 							} else {
 								ob.error('update is not successful');
@@ -77,20 +76,26 @@ ob.locations = {
 			});
 		}
 		fw.popup(popup);
-		var li = $(a).parents('li:first');
 		popup.find('.column').each(function() {
 			if(this.name === 'm.currentStock') {
-				ob.setValue(this, $(a).data('qty'));
+				ob.setValue(this, opt.qty + ' ' + opt.productUom);
 			} else if(this.name === 'm.inStock') {
 				ob.setValue(this, '');
 				this.select();
 				this.focus();
 			} else if(this.name === 'm.detailId') {
-				ob.setValue(this, li.data('id'));
+				ob.setValue(this, opt.detailId || '');
+			} else if(this.name === 'm.productId') {
+				ob.setValue(this, opt.productId);
+			} else if(this.name === 'm.productSpec') {
+				ob.setValue(this, opt.productSpec || '');
+			} else if(this.name === 'lo.locationId') {
+				ob.setValue(this, opt.locationId);
 			}
 		});
-		popup.find('.card-content-inner.name').text(li.find('.item-title').text());
-		popup.find('.card-content-inner.spec').text(li.find('.item-text .a1').text());
+		popup.find('.card-content-inner.sku > .sku-image > img').attr('src', opt.productImage);
+		popup.find('.card-content-inner.sku > .sku-name .name').text(opt.productName);
+		popup.find('.card-content-inner.sku > .sku-name .spec').text(opt.productSpec || '');
 	},
 
 	receiveTx: function( tx ) {
@@ -128,6 +133,132 @@ ob.locations = {
 				ob.setValue(this, tx);
 			}
 		});
+	},
+	
+	processProductBarcode: function( barcode ) {
+		var v = this.resolveBarcodeLocally(barcode);
+		if(v && v.productId) {
+			return this.scanProduct(v);
+		} else {
+			this.resolveBarcodeRemotely(barcode, function( v, code ) {
+				if(v && v.productId) {
+					this.cacheBarcodeLocally(code, v);
+					if(v.barcode !== code) {
+						this.cacheBarcodeLocally(v.barcode, v);
+					}
+					return this.scanProduct(v);
+				} else {
+					fw.alert('Barcode ' + code + ' does not match any valid product.');
+				}
+			});
+		}
+	},
+
+	resolveBarcodeLocally: function( barcode ) {
+		var value = window.localStorage.getItem(this.barcodeKey + barcode);
+		if(typeof value === 'string') {
+			var v = JSON.parse(value);
+			if(v.productId) {
+				return v;
+			}
+		}
+		return false;
+	},
+
+	cacheBarcodeLocally: function( barcode, v) {
+		var text = JSON.stringify(v);
+		window.localStorage.setItem(this.barcodeKey + barcode, text);
+	},
+
+	resolveBarcodeRemotely: function( barcode, cb ) {
+		var caller = this;
+		ob.ajax({
+			url: ob.url('/oauth2/resource/malo/LookupBarcode.List'),
+			method: 'GET',
+			data: { barcode: barcode },
+			success: function( dt ) {
+				try {
+					var json = JSON.parse(dt);
+					if(json.status === 'success' && json.count > 0 && json.data) {
+						if(json.data.length > 1) {
+							for(var index=0; index<json.data.length; index++) {
+								var e = json.data[index];
+								if(barcode === e['ba.barcode_value']) {
+									var result = {
+											productId: e['sku.product_id'],
+											productCode: e['sku.product_code'],
+											productName: e['sku.product_name'],
+											productSpec: e['ba.product_spec_a'],
+											productUom: e['sku.product_uom'],
+											productImage: e['sku.product_image'],
+											barcode: e['ba.barcode_value']
+									};
+									cb.call(caller, result, barcode);
+									return;
+								}
+							}
+						}
+						var e = json.data[0];
+						var result = {
+								productId: e['sku.product_id'],
+								productCode: e['sku.product_code'],
+								productName: e['sku.product_name'],
+								productSpec: e['ba.product_spec_a'],
+								productUom: e['sku.product_uom'],
+								productImage: e['sku.product_image'],
+								barcode: e['ba.barcode_value']
+						};
+						cb.call(caller, result, barcode);
+					} else {
+						cb.call(caller, {}, barcode);
+					}
+				} catch(e) {
+					ob.error(e);
+				}
+			}
+		});
+	},
+	
+	scanProduct: function( v ) {
+//		var url = 'pages/scanproduct.html?productId=' + v.productId
+//				+ '&productCode=' + escape(v.productCode)
+//				+ '&productName=' + escape(v.productName)
+//				+ '&productSpec=' + escape(v.productSpec ? v.productSpec : '')
+//				+ '&productUom=' + escape(v.productUom)
+//				+ '&productImage=' + escape(v.productImage ? v.productImage : '')
+//				+ '&barcode=' + v.barcode;
+//		ob.mainView.router.load({
+//			url: url
+//		});
+		if(!ob.pages.stocks || !ob.pages.stocks.container) {
+			fw.alert('It is allowed to scan a product at stock balance page only.');
+			return false;
+		}
+		if(!ob.pages.stocks.locationId) {
+			fw.alert('It is allowed to scan a product after you choose a location.');
+			return false;
+		}
+		var qty = 0, detailId = '';
+		ob.pages.stocks.container.find('.ob-stock-list > ul').children('li').each(function() {
+			if($(this).data('sku') === v.productId) {
+				if(($(this).data('spec') || '') === (v.productSpec || '')) {
+					detailId = $(this).data('id');
+					qty = $(this).find('a.item-after').data('qty');
+				}
+			}
+		});
+		ob.locations.updateStockBalance({
+			detailId: detailId,
+			productId: v.productId,
+			productCode: v.productCode,
+			productSpec: v.productSpec,
+			productUom: v.productUom,
+			locationId: ob.pages.stocks.locationId,
+			productName: v.productName,
+			productImage: ob.primaryServer + '/images/catalog/large/' + v.productImage,
+			qty: qty
+		});
+		return false;
 	}
 
 };

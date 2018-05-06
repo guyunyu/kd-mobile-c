@@ -45,9 +45,9 @@ div.loading:after { content: ''; clear: both; }
 .page div.ob-list > div.cancelled img { opacity: 0.5; }
 
 .page div.ob-item { margin: 0px; padding: 0px; }
-.page div.ob-item .main-img { width: 100%; }
-.page div.ob-item .main-img > img { width: 100%; }
-.page div.ob-item .detail { display: none; padding: 10px; }
+.page div.ob-item .main-img { width: 100%; text-align: center; }
+.page div.ob-item .main-img > img { width: 100%; max-width: 300px; }
+.page div.ob-item .detail { padding: 10px; }
 .page div.ob-item .detail > .title {}
 .page div.ob-item .detail > .title > .name { font-size: 110%; }
 .page div.ob-item .detail > .title > .promo { color: #22418a; }
@@ -253,3 +253,6 @@ div.navbar div.left .after-checkout span.text { padding-left: 5px; padding-top: 
 .ob-locations .ob-title { padding-top: 30px; padding-left: 10px; }
 .ob-locations.no-padding-top .ob-title { padding-top: 20px; }
 .ob-locations.no-padding-top.list-block { margin-top: 0px; }
+
+.popup-update-stockbalance .sku .sku-image { float: left; }
+.popup-update-stockbalance .sku .sku-name { float: left; margin-left: 10px; }

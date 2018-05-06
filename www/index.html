@@ -32,7 +32,7 @@
               Kumpulan Online
             </div>
             <div class="right">
-              <a href="#" class="link icon-only ob-icon-scan"><img src="images/qrcode.svg" width="28" height="28"></img></a>
+              <a href="index.html" class="link icon-only home-top" onclick="window.location.reload(); return false;"><i class="icon"></i></a>
             </div>
           </div>
         </div>
@@ -129,13 +129,24 @@
         <div class="title">Update Stock Balance</div>
         <div class="card">
           <div class="card-content">
-            <div class="card-content-inner name"></div>
-            <div class="card-content-inner spec"></div>
+            <div class="card-content-inner sku">
+              <div class="sku-image">
+                <img src="images/image-placeholder.png" onerror="this.src='images/image-placeholder.png'; return false;" class="lazy lazy-fadein" width="80" height="80"/>
+              </div>
+              <div class="sku-name">
+                <div class="name"></div>
+                <div class="spec"></div>
+              </div>
+              <div class="clearfix"></div>
+            </div>
           </div>
         </div>
         <form class="list-block">
           <div>
             <input type="hidden" name="m.detailId" class="column"></input>
+            <input type="hidden" name="lo.locationId" class="column"></input>
+            <input type="hidden" name="m.productId" class="column"></input>
+            <input type="hidden" name="m.productSpec" class="column"></input>
           </div>
           <ul>
             <li>
@@ -220,6 +231,7 @@
     <script type="text/javascript" src="js/stocks.js"></script>
     <script type="text/javascript" src="js/barcode.js"></script>
     <script type="text/javascript" src="js/m/my.js"></script>
+    <script type="text/javascript" src="js/scanproduct.js"></script>
     <script type="text/javascript">
 		ob.ready();
     </script>

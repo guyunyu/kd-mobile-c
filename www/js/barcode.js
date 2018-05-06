@@ -1,6 +1,6 @@
 ob.barcode = {
-	init: function() {
-		$('.ob-icon-scan').on('click', function() {
+	init: function( icon ) {
+		icon.off().on('click', function() {
 			if(typeof cordova !== 'undefined') {
 				try {
 					cordova.plugins.barcodeScanner.scan(
@@ -20,6 +20,7 @@ ob.barcode = {
 					fw.alert(e);
 				}
 			}
+			return false;
 		});
 	},
 	handle: function( c ) {
@@ -27,6 +28,8 @@ ob.barcode = {
 			if(/^\/\/[A-Z0-9]+\/?[0-9]+#[0-9]+(F|M)K$/.test(c.text)) {
 				var tx = c.text.substring(2, c.text.indexOf('#'));
 				ob.locations.receiveTx(tx);
+			} else if(/^[0-9]{8,25}$/.test(c.text)) {
+				ob.locations.processProductBarcode(c.text);
 			} else {
 				fw.alert('Barcode is not recognized: ' + c.text);
 			}
