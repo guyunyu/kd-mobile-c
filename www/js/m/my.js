@@ -6,9 +6,7 @@ ob.pages.my = {
 		if(ob.session.status === 'success') {
 			ob.pages.my.container.find('.ob-icon-login').find('.icon > i').text('person');
 			ob.pages.my.container.find('.ob-icon-login').find('a > span.name').text(ob.session.mn);
-			var signout = $('<a href="#"><span>[ Sign Out ]</span></a>');
-			ob.pages.my.container.find('.ob-icon-login .text .signout').append(signout);
-			signout.on('click', function() {
+			ob.pages.my.container.find('.ob-signed-in a.signout').on('click', function() {
 				window.localStorage.setItem('session', '{}');
 				ob.session = {};
 				window.location.reload();
