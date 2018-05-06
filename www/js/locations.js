@@ -1,5 +1,7 @@
 ob.locations = {
 	barcodeKey: 'bar-',
+	running: 0,
+	runtimes: {},
 	render: function( dt ) {
 		var json;
 		if(typeof dt === 'string') {
@@ -61,7 +63,8 @@ ob.locations = {
 							var json = JSON.parse(dt);
 							if(json.status === 'success') {
 								if(ob.pages.stocks && ob.pages.stocks.container) {
-									ob.pages.stocks.update(opt, json.rflag.detailId, json.rflag.inStock);
+									ob.pages.stocks.update(ob.locations.runtimes[json.rflag.runtimeId], json.rflag.detailId, json.rflag.inStock);
+									delete ob.locations.runtimes[json.rflag.runtimeId];
 								}
 								fw.closeModal('.popup-update-stockbalance.modal-in');
 							} else {
@@ -76,6 +79,8 @@ ob.locations = {
 			});
 		}
 		fw.popup(popup);
+		var runtimeId = ++this.running;
+		this.runtimes[runtimeId] = opt;
 		popup.find('.column').each(function() {
 			if(this.name === 'm.currentStock') {
 				ob.setValue(this, opt.qty + ' ' + opt.productUom);
@@ -91,6 +96,8 @@ ob.locations = {
 				ob.setValue(this, opt.productSpec || '');
 			} else if(this.name === 'lo.locationId') {
 				ob.setValue(this, opt.locationId);
+			} else if(this.name === 'runtimeId') {
+				ob.setValue(this, runtimeId);
 			}
 		});
 		popup.find('.card-content-inner.sku > .sku-image > img').attr('src', opt.productImage);
